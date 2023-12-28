@@ -43,27 +43,26 @@
     {%endif%}
 {%endif%}
 <img src="{{listing.imageurl}}" alt="{{listing.title}}" width="500px" height="500px" margin="30px">
-<p>{{listing.desc}}</p>
 <p><strong>Owned by: {{listing.owner}}</strong></p>
-<h3>Initial Price: ${{listing.price}}</h3>
+<h3>Price: {{listing.price}}</h3>
 {% if user.is_authenticated and listing.isActive %}
         <form action="{%url 'bid' id=listing.id%}" method="post">
             {%csrf_token%}
             <div class="form-group">
                 <label for="price">Bid Your Price</label>
-                <input type="number" min="0" name="bidAmount">
+                <input type="number" min="0" name="bidAmount" placeholder="Bid Amount">
                 <button type="submit" class="btn btn-warning">Bid</button>
             </div>
         </form>
 {%else%}
         <h2>This Auction is closed!</h2>
-
+{%endif%}
 <h2>Comments</h2>
 {%if user.is_authenticated %}
     <form action="{% url 'addComment' id=listing.id  %}" method="post">
         {%csrf_token%}
         <label for="comment">Add Comment</label>
-        <input type="text" name="newComment">
+        <input type="text" name="newComment" placeholder="Leave a comment">
         <button type="submit" class="btn btn-primary">Add</button>
     </form>
 {%endif%}
@@ -76,5 +75,5 @@
 {% empty %}
     <p>No comments</p>
 {%endfor%}
-{%endif%}
+
 {% endblock %}

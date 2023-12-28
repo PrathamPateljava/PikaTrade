@@ -113,7 +113,7 @@ def addBid(request,id):
         messages.success(request,"Bid Updated Succesfully")
         return HttpResponseRedirect(reverse("listing",args=(id,)))
     else:
-        messages.error(request,"Bid Updated Succesfully")
+        messages.warning(request,"Bid could not be updated succesfully")
         return HttpResponseRedirect(reverse("listing",args=(id, )))
         # return render(request,"auctions/listing.html",{
         #     "message":"Bid was not updated",
@@ -129,13 +129,14 @@ def close(request,id):
     listing.save()
     comments=Comment.objects.filter(listing=listing)
     isOwner= request.user.username==listing.owner.username
-    return render(request,"auctions/listing.html",{
-            "message":"Your Bid was closed successfully",
-            "listing":listing,
-            "updated":False,
-            "comments":comments,
-            "isOwner":isOwner
-        })
+    messages.success(request,"Your Bid was closed successfully")
+    return HttpResponseRedirect(reverse("listing",args=(id,)))
+    # return render(request,"auctions/listing.html",{
+    #         "listing":listing,
+    #         "updated":False,
+    #         "comments":comments,
+    #         "isOwner":isOwner
+    #     })
 def login_view(request):
     if request.method == "POST":
 
